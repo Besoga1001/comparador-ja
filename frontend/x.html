@@ -1,0 +1,64 @@
+
+
+
+
+    <main>
+        <button type="button" class="button blue" id="cadastrarCliente">Cadastrar Ferramentas</button>
+        <table class="records">
+            <thead>
+                <tr>
+                    <th class="white">Código</th>
+                    <th class="white">Código WHB</th>
+                    <th class="white">Descrição</th>
+                    <th class="white">Fornecedor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>FE33.0613198</td>
+                    <td>WNMG080408-SWT515</td>
+                    <td>TUNGALOY</td>
+                    <td>
+                        <button type="button" class="button green">Editar</button>
+                        <button type="button" class="button red">Excluir</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>Sem Código WHB</td>
+                    <td>WNMG080408-SW MC5015</td>
+                    <td>TROY</td>
+                    <td>
+                        <button type="button" class="button green">Editar</button>
+                        <button type="button" class="button red">Excluir</button>
+                    </td>
+                </tr>
+               
+            </tbody>
+        </table>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2>Novo Cliente</h2>
+                    <span class="modal-close" id="modalClose">&#10006;</span>
+                </header>
+                <form class="modal-form"> 
+                    <input type="nome" class="modal-field" placeholder="Código">
+                    <input type="e-mail" class="modal-field" placeholder="Código WHB"> 
+                    <input type="celular" class="modal-field" placeholder="Descrição"> 
+                    <input type="cidade" class="modal-field" placeholder="Fornecedor"> 
+                </form>
+                <footer class="modal-footer">
+                    <button class="button green">Salvar</button>
+                    <button class="button blue">Cancelar</button>
+                </footer>
+            </div>
+        </div>
+    </main>
+    <footer>
+        
+    </footer>
+</body>
+</html>
