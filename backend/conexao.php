@@ -2,7 +2,7 @@
 
 $hostname = "localhost";
 $user = "root";
-$password = "@dblink2019!";
+$password = "";
 $database = "troy_prot";
 $conexao = mysqli_connect($hostname,$user,$password,$database);
 

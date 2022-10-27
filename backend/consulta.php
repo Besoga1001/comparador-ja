@@ -110,11 +110,12 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
                         if (!empty($registroFerramenta[$i]))
                         {
                             $valor = $registroFerramenta[$i]; 
-                            echo "$label: <input type='text' id='$idHtml' value='$valor' readonly><br>";
+                            echo "$label: <input type='text' id='$idHtml' value='$valor' readonly>";
+
                         }
                         else
                         {
-                            echo "$label: <input type='text' id='$idHtml' value='N/A' readonly><br>";
+                            echo "$label: <input type='text' id='$idHtml' value='N/A' readonly>";
                         }
                     }
 
@@ -276,6 +277,5 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
 
 
         <br><br><br><br><br><br>
-        <h3>SEMPRE QUE GERAR UMA CONSULTA, GERAR UM QRCODE QUE PODE SER ACESSADO POR OUTRO COLABORADOR DA FIRMA?<br>Nao faz sentido na vdd kkk</h3>
     </body>
 </html>
