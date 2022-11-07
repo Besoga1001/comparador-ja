@@ -1,14 +1,22 @@
-'use strict'
+//'use strict'
 
-const openModal = () => document.getElementById('modal')
-    .classList.add('active')
+//const openModal = () => document.getElementById('modal')
+//    .classList.add('active')
 
-const closeModal = () => document.getElementById('modal')
-    .classList.remove('active')
+//const closeModal = () => document.getElementById('modal')
+//    .classList.remove('active')
 
 
-document.getElementById('cadastrarCliente')
-        .addEventListener('click', openModal)
+//document.getElementById('cadastrarCliente')
+//        .addEventListener('click', openModal)
 
-document.getElementById('modalClose')
-        .addEventListener('click', closeModal)
+//document.getElementById('modalClose')
+//        .addEventListener('click', closeModal)
+
+function Insert(){
+
+    var desc = document.getElementById('desc')
+
+    window.alert(desc);
+
+}

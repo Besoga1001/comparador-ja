@@ -5,9 +5,13 @@ include_once ("conexao.php");
 // $desc = isset($_POST['desc']) ? $_POST['desc'] : 'Sem desc';
 // $forn = isset($_POST['forn']) ? $_POST['forn'] : 'Sem Forn';
 
+$arrInsert = json_decode($_POST['result'], true);
+
+echo $arrInsert;
+
 var_dump($_POST);
 
-$sql = "INSERT INTO tabpro (TABPRO_Descricao, TABPRO_Fornecedor) VALUES ('$desc', '$forn')";
+$sql = "INSERT INTO tabpro (TABPRO_Descricao, TABPRO_Fornecedor) VALUES ('$arrInsert[1]', '$arrInsert[2]')";
 $salvar = mysqli_query($conexao, $sql);
 
 $linhas = mysqli_affected_rows($conexao);

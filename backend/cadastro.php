@@ -91,8 +91,8 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
     <link rel="stylesheet" href="/frontend/crud/estilos/records.css">
     <link rel="stylesheet" href="/frontend/crud/estilos/modal.css">
     <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
-    <script src="main.js" defer></script>
     <link rel="stylesheet" href="">
+    <script src="/frontend/crud/scripts/main.js" defer></script>
     <title>Ferramentas Troy</title>
 </head>
 <body>
@@ -100,7 +100,14 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
         <h1 class="header-title">Cadastro de Ferramentas</h1>
     </header>
     <main>
-        <button type="button" class="button blue" id="cadastrarCliente">Cadastrar Ferramentas</button>
+        <div>
+            <form action='../index.php'>
+                <button type='submit' class="button blue" name='inicio'>Inicio</button>
+            </form>
+        </div>
+        <div>
+            <button type="button" class="button blue" id="cadastrarCliente">Cadastrar Ferramentas</button>
+        </div>
         <table class="records">
             <thead>
                 <tr>
@@ -169,11 +176,6 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
         <title>Comparador</title>
     </head>
     <body>
-
-        <!-- Botão para acessar a tela do Inicio -->
-        <form action='../index.php'>
-            <button type='submit' name='inicio'>Inicio</button>
-        </form>
         
         <!-- Botão para acessar a página de Consultas -->
         <form action='consulta.php'>
@@ -189,6 +191,7 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
             <h2>Informações de Cabeçalho</h2>
             <?php
                 # Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
+                echo "<input type='text' id='desc' name='desc'><br>";
                 for ($i = 1; $i <= 3; $i++)
                 {
                     $label = $arrLabelCampo[$i];
@@ -222,10 +225,13 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
                     echo "$label <input type='text' id='$idHtml' name='$idHtml'><br>";
                 }
 
+
             ?>
             <!-- Salvar as informações inseridas na inputbox -->
             <br>
-            <input type="submit" value="Salvar"><br>
+            <input type="button" value="Teste" onclick="Insert()">
+            <input type="submit" value="Salvar"><br></input>
+
             <!--Descrição: <input type="text" id="codwhb2" onblur="letraMaius('codwhb2')"><br> -->
         </form>
     </body>
