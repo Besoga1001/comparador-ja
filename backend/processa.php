@@ -2,16 +2,21 @@
 
 include_once ("conexao.php");
 
-// $desc = isset($_POST['desc']) ? $_POST['desc'] : 'Sem desc';
-// $forn = isset($_POST['forn']) ? $_POST['forn'] : 'Sem Forn';
+# Lista de nomes dos InputBox que aparecerão do lado das Labels
+$arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "custpastnova", "qtdarenova", "qtdpastnova", "vidautilnova", "custpastalisa", "qtdarealisa", "qtdpastalisa", "vidautilalisa", "prevprod"];
 
-$arrInsert = json_decode($_POST['result'], true);
+$arrInsert[0] = 'id';
 
-echo $arrInsert;
+for ($i = 1; $i <= 15; $i++)
+{
+    $campo = $arrIDHtml[$i];
+    array_push($arrInsert, isset($_POST[$campo]) ? $_POST[$campo] : 'Sem ' + $campo);
+}
 
-var_dump($_POST);
+//var_dump($_POST);
 
-$sql = "INSERT INTO tabpro (TABPRO_Descricao, TABPRO_Fornecedor) VALUES ('$arrInsert[1]', '$arrInsert[2]')";
+$sql = "INSERT INTO tabpro (TABPRO_Descricao, TABPRO_CodWHB, TABPRO_Fornecedor, TABPRO_VelCorte, TABPRO_Avanco, TABPRO_CompUsi, TABPRO_Nova_CustPast, TABPRO_Nova_QtdAresta, TABPRO_Nova_QtdPast, TABPRO_Nova_VidaUtil, TABPRO_Alisa_CustPast, TABPRO_Alisa_QtdAresta, TABPRO_Alisa_QtdPast, TABPRO_Alisa_VidaUtil, TABPRO_PrevProdAnual) VALUES ('$arrInsert[1]', '$arrInsert[2]', '$arrInsert[3]', '$arrInsert[4]', '$arrInsert[5]', '$arrInsert[6]', '$arrInsert[7]', '$arrInsert[8]', '$arrInsert[9]', '$arrInsert[10]', '$arrInsert[11]', '$arrInsert[12]', '$arrInsert[13]', '$arrInsert[14]', '$arrInsert[15]')";
+
 $salvar = mysqli_query($conexao, $sql);
 
 $linhas = mysqli_affected_rows($conexao);

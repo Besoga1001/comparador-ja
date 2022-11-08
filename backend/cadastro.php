@@ -66,7 +66,7 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
         avanco = getValor("avanco");
         compusi = getValor("compusi");
 
-        if (!isNaN(avanco) && !isNaN(compusi))
+        if (!isNaN(avanco) && !isNaN(compusi) && !isNaN(velcorte))
         {
             var total = compusi / avanco;
             total = total.toFixed(2);
@@ -182,47 +182,46 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
             <button type='submit' name='cadastro'>Consulta</button>
         </form>
 
-        <!-- 
-        ################################################ 
-        ###############  CAMPOS DE TESTE  ##############
-        ################################################ 
-        -->
         <form method="POST" action="processa.php">
             <h2>Informações de Cabeçalho</h2>
+            <br>
             <?php
-                # Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
-                echo "<input type='text' id='desc' name='desc'><br>";
+                // Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
                 for ($i = 1; $i <= 3; $i++)
                 {
                     $label = $arrLabelCampo[$i];
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
-                    echo "$label <input type='text' id='$idHtml' name='$idHtml'><br>";
+                    if ($idHtml == 'desc' || $idHtml == 'forn') {
+                        echo "$label <input type='text' id='$idHtml' name='$idHtml' required><br><br>"; 
+                    } else {
+                     echo "$label <input type='text' id='$idHtml' name='$idHtml'><br><br>";
+                    }
                 }
 
-                echo "<br><hr><h2>Dados de Corte</h2>";
+                echo "<br><hr><h2>Dados de Corte</h2><br>";
                 
-                # Inserir a Label e input de Vel. de Avanço e Comprimento Usinado (Tipo Number)
+                // Inserir a Label e input de Vel. de Avanço e Comprimento Usinado (Tipo Number)
                 for ($i = 4; $i <=6; $i++)
                 {
                     $label = $arrLabelCampo[$i];
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
-                    echo "$label <input type='number' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()'><br>";
+                    echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()'><br><br>";
                 }
 
                 $idHtml = "tempusi";
                 echo "Tempo de Usinagem: <input type='text' id=$idHtml value='0' readonly>";
 
-                echo "<br><hr><h2>Informações de Custo</h2>";
+                echo "<br><br><hr><h2>Informações de Custo</h2><br>";
 
-                # Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
+                // Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
                 for ($i = 7; $i <= 15; $i++)
                 {
                     $label = $arrLabelCampo[$i];
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
-                    echo "$label <input type='text' id='$idHtml' name='$idHtml'><br>";
+                    echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml'><br><br>";
                 }
 
 
