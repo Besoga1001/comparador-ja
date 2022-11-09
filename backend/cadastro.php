@@ -6,6 +6,8 @@ $sql = "SELECT * FROM tabpro ORDER BY TABPRO_Descricao";
 $consulta = mysqli_query($conexao, $sql);
 $registros = mysqli_num_rows($consulta);
 
+var_dump($consulta);
+
 ?>
 
 <?php

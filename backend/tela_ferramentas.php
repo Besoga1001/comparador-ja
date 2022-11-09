@@ -22,12 +22,12 @@
                 <button type='submit' class="button blue" name='inicio'>Inicio</button>
             </form>
             <br>
-            <form action='/backend/cadastro.php'>
+            <form action='/backend/carrega_ferramentas.php'>
                 <button type='submit' class="button blue" id='cadastrar'>Cadastrar</button>
             </form>
             <br>
             <form action='/backend/cadastro.php'>
-                <button type='submit' class="button blue" id='atualizar'>Atualizarr</button>
+                <button type='submit' class="button blue" id='atualizar'>Atualizar</button>
             </form>
             <br>
             <form action='/backend/cadastro.php'>
