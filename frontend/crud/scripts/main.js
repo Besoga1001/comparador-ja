@@ -12,11 +12,3 @@
 
 //document.getElementById('modalClose')
 //        .addEventListener('click', closeModal)
-
-function Insert(){
-
-    var desc = document.getElementById('desc')
-
-    window.alert(desc);
-
-}

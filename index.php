@@ -9,8 +9,8 @@
 <body>
     <h2>Inicio</h2>
 
-    <form method='get' action='/backend/cadastro.php'>
-        <button type='submit' name='cadastro'>Cadastro</button>
+    <form method='get' action='/backend/tela_ferramentas.php'>
+        <button type='submit' name='cadastro'>Ferramentas</button>
     </form>
 
     <br><hr><br>
