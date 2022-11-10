@@ -39,7 +39,7 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
     </head>
     <body>
         <!-- Botão para acessar a tela de cadastro -->
-        <form method='post' action='cadastro.php'>
+        <form method='post' action='crud.php'>
             <button type='submit' name='cadastro'>Cadastro</button>
         </form>
         <!-- Criar um form -->

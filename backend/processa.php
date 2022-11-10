@@ -28,7 +28,7 @@ function addArraySql($arrIDHtml) {
     for ($i = 1; $i <= 15; $i++)
     {
         $campo = $arrIDHtml[$i];
-        //array_push($arrSql, isset($_POST[$campo]) ? $_POST[$campo] : 'Sem ' + $campo);
+        array_push($arrSql, isset($_POST[$campo]) ? $_POST[$campo] : 'Sem ' + $campo);
     }
 
     return $arrSql;

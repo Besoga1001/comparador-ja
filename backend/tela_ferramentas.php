@@ -22,20 +22,11 @@
                 <button type='submit' class="button blue" name='inicio'>Inicio</button>
             </form>
             <br>
-            <form action='/backend/carrega_ferramentas.php'>
-                <button type='submit' class="button blue" id='cadastrar'>Cadastrar</button>
-            </form>
-            <br>
-            <form action='/backend/cadastro.php'>
-                <button type='submit' class="button blue" id='atualizar'>Atualizar</button>
-            </form>
-            <br>
-            <form action='/backend/cadastro.php'>
-                <button type='submit' class="button blue" id='excluir'>Excluir</button>
-            </form>
-            <br>
-            <form action='/backend/cadastro.php'>
-                <button type='submit' class="button blue" id='consultar'>Consultar</button>
+            <form method='POST' action='/backend/crud.php'>
+                <input type='submit' class="input blue" name='cadastrar' value='Cadastrar'>    
+                <input type='submit' class="input blue" name='atualizar' value='Atualizar'>         
+                <input type='submit' class="input blue" name='excluir' value='Excluir'>            
+                <input type='submit' class="input blue" name='consultar' value='Consultar'>
             </form>
         </div>
 
