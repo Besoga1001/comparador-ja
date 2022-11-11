@@ -74,6 +74,12 @@ function sqlConection($conexao, $sql){
         }else {
             print "Cadastro não efetuado.<br>Já existe um usuário com este e-mail!";
         }
+
     ?>
+
+    <form method='get' action='/backend/tela_ferramentas.php'>
+        <button type='submit' name='cadastro'>Ferramentas</button>
+    </form>
+    
 </body>
 </html>

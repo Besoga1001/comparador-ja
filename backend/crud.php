@@ -1,34 +1,32 @@
 <?php
 
+//Desabilita mensagens de erro e warning
+error_reporting(E_ERROR | E_PARSE);
+
 include_once ("conexao.php");
 
-// try {
-//     $_POST['cadastrar'];
-//     $mode = 'Cadastrar';
-// } catch () {
-//     try {
-//         //code...
-//     } catch (\Throwable $th) {
-//         //throw $th;
-//     }
-// }
-// if ($_POST['cadastrar'] != '') {
-//     $mode = 'Cadastrar';
-// } elseif ($_POST['atualizar'] != '') {
-//     $mode = 'Atualizar';
-// } elseif ($_POST['excluir'] != '') {
-//     $mode = 'Excluir';
-// } elseif ($_POST['consultar'] != '') {
-//     $mode = 'Consultar';
-// }
-
-// var_dump($mode);
+$mode = recieveMode();
 
 // Lista de nomes das labels que aparecerão do lado das Inputs
 $arrLabelCampo = ["ID", "Descrição", "Código WHB", "Fornecedor", "Velocidade de Corte [m/min]", "Avanço [mm/min]", "Comprimento Usinado[mm]", "Custo Pastilha [R$]", "Qntd de Arestas", "Qntd de Pastilhas", "Vida Útil[pçs]", "Custo Pastilha (Alisadora) [R$]", "Qntd de arestas (Alisadora)", "Qntd de Pastilhas (Alisadora)", "Vida Util (Alisadora) [pçs]", "Previsão de produção anual [pçs]"];
 
 // Lista de nomes dos InputBox que aparecerão do lado das Labels
 $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "custpastnova", "qtdarenova", "qtdpastnova", "vidautilnova", "custpastalisa", "qtdarealisa", "qtdpastalisa", "vidautilalisa", "prevprod"];
+
+function recieveMode() {
+    if ($_POST['cadastrar'] != '') {
+        $mode = 'Cadastrar';
+    } elseif ($_POST['atualizar'] != '') {
+        $mode = 'Atualizar';
+    } elseif ($_POST['excluir'] != '') {
+        $mode = 'Excluir';
+    } elseif ($_POST['consultar'] != '') {
+        $mode = 'Consultar';
+    }
+
+    return $mode;
+}
+
 
 ?>
 
@@ -94,10 +92,14 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
                     $label = $arrLabelCampo[$i];
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
-                    if ($idHtml == 'desc' || $idHtml == 'forn') {
-                        echo "$label <input type='text' id='$idHtml' name='$idHtml' required><br><br>"; 
+                    if ($mode != 'Cadastrar') {
+                        echo "$label <input type='text' id='$idHtml' name='$idHtml' readonly><br><br>";
                     } else {
-                     echo "$label <input type='text' id='$idHtml' name='$idHtml'><br><br>";
+                        if ($idHtml == 'desc' || $idHtml == 'forn') {
+                            echo "$label <input type='text' id='$idHtml' name='$idHtml' required><br><br>"; 
+                        } else {
+                        echo "$label <input type='text' id='$idHtml' name='$idHtml'><br><br>";
+                        }
                     }
                 }
 
@@ -109,7 +111,11 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
                     $label = $arrLabelCampo[$i];
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
-                    echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()'><br><br>";
+                    if ($mode != 'Cadastrar') {
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()' readonly><br><br>";
+                    } else {
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()'><br><br>"; 
+                    }
                 }
 
                 $idHtml = "tempusi";
@@ -123,15 +129,21 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
                     $label = $arrLabelCampo[$i];
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
-                    echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml'><br><br>";
+                    if ($mode != 'Cadastrar') {
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml' readonly><br><br>";
+                    } else {
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml'><br><br>";
+                    }
                 }
 
 
-            ?>
-            <!-- Salvar as informações inseridas na inputbox -->
-            <br>
-            <input type="submit" value="Salvar"><br></input>
+                if ($mode == 'Cadastrar'){
+                    echo "<input type='submit' value='Inserir'><br></input>";
+                } elseif ($mode == 'Atualizar') {
+                    echo "<input type='submit' value='Atualizar'><br></input>";
+                }
 
+            ?>
             <!--Descrição: <input type="text" id="codwhb2" onblur="letraMaius('codwhb2')"><br> -->
         </form>
     </body>
