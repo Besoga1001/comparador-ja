@@ -6,9 +6,23 @@ $sql = "SELECT TABPRO_ID, TABPRO_Descricao, TABPRO_Fornecedor FROM tabpro ORDER 
 $consulta = mysqli_query($conexao, $sql);
 $registros = mysqli_num_rows($consulta);
 
-?>
 
-<?php
+############# NOVA PESQUISA
+# Criar link com o DB
+$dbh = new PDO('mysql:host=localhost;dbname=troy_prot', 'root', '');
+
+# Criar o comando do SQL
+$sth = $dbh->prepare("SELECT TABPRO_ID, TABPRO_Descricao FROM tabpro");
+# Executar comando
+$sth->execute();
+
+# Armazenar em uma variável os resultados obtidos
+$resultados = $sth->fetchAll(PDO::FETCH_ASSOC);
+# Contar a quantidade de resultados
+$tamResultados = count($resultados);
+
+
+###################### FERRAMENTA 1
 # Se houver um item selecionado, pesquisar o item no SQL e coletar informações registradas.
 $itemPesquisado = isset($_GET["ferramenta1"])?$_GET["ferramenta1"]:"";
 if($itemPesquisado <> ""){
@@ -17,32 +31,155 @@ if($itemPesquisado <> ""){
     # Conectar ao SQL e enviar o comando gerado
     $consultaFerramenta = mysqli_query($conexao, $sql);
     # Colocar em uma variável array a pesquisa feita
-    $registroFerramenta = mysqli_fetch_array($consultaFerramenta);
-    # Colocar o ID do item pesquisado em uma variável
-    $idFerramenta1 = $registroFerramenta[0];
-    # Colocar a Descrição do item pesquisado em uma variável
-    $descricaoFerramenta1 = $registroFerramenta[1];
-    # Colocar o Fornecedor do item pesquisado em uma variável
-    $fornecedorFerramenta1 = $registroFerramenta[3];
+    $caracFerr1 = mysqli_fetch_array($consultaFerramenta);
 }
 else{
     ## Caso nao tenha um retorno na pesquisa:
     #ID ferramenta vazio
-    $idFerramenta1 = '';
-    #Descrição ferramenta vazio
-    $descricaoFerramenta1 = '';
-    #Fornecedor ferramenta vazio
-    $fornecedorFerramenta1 = '';
+    $caracFerr1 = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
 }
-?>
+# Colocar o ID em uma variável
+$idFerramenta1 = $caracFerr1[0];
+# Colocar Fornecedor em uma variável
+$forn1 = $caracFerr1[3];
 
-<?php
-# Lista de nomes das labels que aparecerão do lado das Inputs
-$arrLabelCampo = ["ID", "Descrição", "Código WHB", "Fornecedor", "Velocidade de Corte [m/min]", "Velocidade de Avanço [mm/min]", "Comprimento Usinado[mm]", "Custo Pastilha [R$]", "Qntd de Arestas", "Qntd de Pastilhas", "Vida Útil[pçs]", "Custo Pastilha (Alisadora) [R$]", "Qntd de arestas (Alisadora)", "Qntd de Pastilhas (Alisadora)", "Vida Util (Alisadora) [pçs]", "Previsão de produção anual [pçs]"];
+###################### FERRAMENTA 2
+# Se houver um item selecionado, pesquisar o item no SQL e coletar informações registradas.
+$itemPesquisado = isset($_GET["ferramenta2"])?$_GET["ferramenta2"]:"";
+if($itemPesquisado <> ""){
+    # Gerar o comando no SQL
+    $sql = "SELECT * FROM tabpro WHERE TABPRO_ID LIKE '$itemPesquisado'";
+    # Conectar ao SQL e enviar o comando gerado
+    $consultaFerramenta = mysqli_query($conexao, $sql);
+    # Colocar em uma variável array a pesquisa feita
+    $caracFerr2 = mysqli_fetch_array($consultaFerramenta);
+}
+else{
+    ## Caso nao tenha um retorno na pesquisa:
+    #ID ferramenta vazio
+    $caracFerr2 = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+}
+# Colocar o ID em uma variável
+$idFerramenta2 = $caracFerr2[0];
+# Colocar Fornecedor em uma variável
+$forn2 = $caracFerr2[3];
 
+
+######################## LISTAS DE NOMES DE ID
 # Lista de nomes dos InputBox que aparecerão do lado das Labels
 $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "custpastnova", "qtdarenova", "qtdpastnova", "vidautilnova", "custpastalisa", "qtdarealisa", "qtdpastalisa", "vidautilalisa", "prevprod"];
 
+
+######################## FUNÇÕES DE COMPARAÇÃO
+## Quando o primeiro valor for MAIOR, o que deve aparecerá
+function vlr1Maior ($valor1, $valor2, $forn1, $forn2, $vlrReal = 0){
+    // Verificar valor 1
+    if (!empty($valor1) && $valor1 !== '-')
+        {
+            if ($vlrReal == 1)
+            {
+                $valor1 = str_replace('.', ',', round($valor1, 2), $valor1);
+                echo "<td class='blue'>R$ $valor1</td>";
+            }
+            else{
+                $valor1 = str_replace('.', ',', $valor1);
+                echo "<td class='blue'>$valor1</td>";
+            }
+        }
+    else
+        {
+            $valor1 = '-';
+            echo "<td class='blue'>$valor1</td>";
+        }
+    // Verificar valor 2
+    if (!empty($valor2) && $valor2 !== '-')
+        {
+            if ($vlrReal == 1)
+            {
+                $valor2 = str_replace('.', ',', round($valor2, 2), $valor2);
+                echo "<td class='blue'>R$ $valor2</td>";
+            }
+            else{
+                $valor2 = str_replace('.', ',', $valor2);
+                echo "<td class='blue'>$valor2</td>";
+            }
+        }
+    else
+        {
+            $valor2 = '-';
+            echo "<td class='blue'>$valor2</td>";
+        }
+    // Verificar qual o melhor Fornecedor
+    if ($valor1 != '-' && $valor2 != '-'){
+        if ($valor1 > $valor2){
+            echo "<td class='blue'>$forn1</td>";
+            }
+        elseif ($valor1 < $valor2){
+            echo "<td class='blue'>$forn2</td>";
+            }
+        else{
+            echo "<td class='blue'>-</td>";
+        }
+        }
+    else{
+        echo "<td class='blue'>-</td>";
+    }
+}
+
+## Quando o primeiro valor for MENOR, o que deve aparecerá
+function vlr1Menor ($valor1, $valor2, $forn1, $forn2, $vlrReal = 0){
+    // Verificar valor 1
+    if (!empty($valor1) && $valor1 !== '-')
+        {
+            if ($vlrReal == 1)
+            {
+                $valor1 = str_replace('.', ',', round($valor1, 2), $valor1);
+                echo "<td class='blue'>R$ $valor1</td>";
+            }
+            else{
+                $valor1 = str_replace('.', ',', $valor1);
+                echo "<td class='blue'>$valor1</td>";
+            }
+        }
+    else
+        {
+            $valor1 = '-';
+            echo "<td class='blue'>-</td>";
+        }
+    // Verificar valor 2
+    if (!empty($valor2) && $valor2 !== '-')
+        {
+            if ($vlrReal == 1)
+            {
+                $valor2 = str_replace('.', ',', round($valor2, 2), $valor2);
+                echo "<td class='blue'>R$ $valor2</td>";
+            }
+            else{
+                $valor2 = str_replace('.', ',', $valor2);
+                echo "<td class='blue'>$valor2</td>";
+            }
+        }
+    else
+        {
+            $valor2 = '-';
+            echo "<td class='blue'>-</td>";
+        }
+    // Verificar qual o melhor Fornecedor
+    if ($valor1 != '-' && $valor2 != '-'){
+        if ($valor1 < $valor2){
+            echo "<td class='blue'>$forn1</td>";
+            }
+        elseif ($valor1 > $valor2){
+            echo "<td class='blue'>$forn2</td>";
+            }
+        else{
+            echo "<td class='blue'>-</td>";
+        }
+        }
+    else{
+        echo "<td class='blue'>-</td>";
+    }
+}
 ?>
 
 
@@ -81,6 +218,7 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
     }
 </script>
 
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -94,269 +232,362 @@ $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "
 
         <header>
             <div class="cabecalho">
-                <h1><img src="logo-troy.png"></h1>
+                <h1><img src="/frontend/comparador/imagens/logo-troy.png"></h1>
                 <ul>
-                    <il><img class="imagem" src="/frontend/comparador/imagens/telefone-troy.png">+55(41)3349-3002</il>
-                    <il><img class ="imagem" src="/frontend/comparador/imagens/email-troy.png" alt="">vendas@ferramentastroy.com.br</il>
-                    <il><img class= "imagem" src="/frontend/comparador/imagens/localizacao-troy.png" alt="">R. Wiegando Olsen, 724 - Cidade Industrial Curitiba - PR, 81460-070</il>
+                    <il><img class="imagem" src="../frontend/comparador/imagens/telefone-troy.png">+55(41)3349-3002</il>
+                    <il><img class ="imagem" src="../frontend/comparador/imagens/email-troy.png" alt="">vendas@ferramentastroy.com.br</il>
+                    <il><img class= "imagem" src="../frontend/comparador/imagens/localizacao-troy.png" alt="">R. Wiegando Olsen, 724 - Cidade Industrial Curitiba - PR, 81460-070</il>
                 </ul>
             </div>
 
             <div class="conteudo">
+                <form action='../index.php'>
+                    <button type='submit' class="button blue" name='inicio'>Inicio</button>
+                </form>
                 <h2>Tela de comparação</h2>
             </div>
-        |</header>
-        
+        </header>
+
         <table>
             <tr>
-                <th>COMPARATIVO TÉCNICO</th> <!cabeçalho da tabela>
-                <th>Modelo 1</th>
-                <th>Modelo 2</th>
+                <th>COMPARATIVO TÉCNICO</th> <!-- Cabeçalho da tabela -->
+                <th>Ferramenta 1</th>
+                <th>Ferramenta 2</th>
+                <th>Resultado</th>
             </tr>
             <tr>
-                <td>DESCRIÇÃO</td> <!registros da tabela>
-                <td>BROCA XYZ123</td>
-                <td>BROCA XYZ456</td>
+                <td>DESCRIÇÃO</td> <!-- Registros da tabela -->
+                <form action=''>
+                    <td>
+                        <select name="ferramenta1" id="ferramenta1">
+                            <!-- Primeiro item vai ser o "Selecione" -->
+                            <option value="">Selecione</option>
+                            <?php
+                                # Enquanto tiver um item a ser mostrado no DB, continuar com o looping
+                                for ($i=0; $i < $tamResultados; $i++){
+                                    # Id será o item 0 da lista gerada
+                                    $id = $resultados[$i]['TABPRO_ID'];
+                                    # Descrição será o item 1 da lista gerada
+                                    $descricao = $resultados[$i]['TABPRO_Descricao'];
+                                    # Caso o ID seja igual ao ID pesquisado previamente pelo usuário, ele será automaticamente selecionado
+                                    if($id == $idFerramenta1){
+                                        echo "<option value='$id' selected='selected'>$descricao</option>";
+                                    }
+                                    # Caso contrário apenas adiciona o item na lista
+                                    else{
+                                        echo "<option value='$id'>$descricao</option>";
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="ferramenta2" id="ferramenta2">
+                            <!-- Primeiro item vai ser o "Selecione" -->
+                            <option value="">Selecione</option>
+                            <?php
+                                # Enquanto tiver um item a ser mostrado no DB, continuar com o looping
+                                for ($i=0; $i < $tamResultados; $i++){
+                                    # Id será o item 0 da lista gerada
+                                    $id = $resultados[$i]['TABPRO_ID'];
+                                    # Descrição será o item 1 da lista gerada
+                                    $descricao = $resultados[$i]['TABPRO_Descricao'];
+                                    # Caso o ID seja igual ao ID pesquisado previamente pelo usuário, ele será automaticamente selecionado
+                                    if($id == $idFerramenta2){
+                                        echo "<option value='$id' selected='selected'>$descricao</option>";
+                                    }
+                                    # Caso contrário apenas adiciona o item na lista
+                                    else{
+                                        echo "<option value='$id'>$descricao</option>";
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </td>
+                <td>
+                        <button type='submit' class="button blue" name='pesquisar'>Pesquisar</button>
+                    </td>
+                </form>
             </tr>
             <tr>
                 <td> CÓDIGO WHB</td>
-                <td>-</td>
+                <?php
+                    // Carregar Código da ferramenta 1
+                    if (!empty($caracFerr1[2]))
+                        {
+                            $valor1 = $caracFerr1[2]; 
+                            echo "<td>$valor1</td>";
+
+                        }
+                    else
+                        {
+                            $valor1 = '-';
+                            echo "<td>$valor1</td>";
+                        }
+                    // Carregar Código da ferramenta 2
+                    if (!empty($caracFerr2[2]))
+                        {
+                            $valor2 = $caracFerr2[2]; 
+                            echo "<td>$valor2</td>";
+
+                        }
+                    else
+                        {
+                            $valor2 = '-';
+                            echo "<td>$valor2</td>";
+                        }
+                ?>
                 <td>-</td>
             </tr>
             <tr>
                 <td>FORNECEDOR</td>
-                <td>X</td>
-                <td>TROY</td>                
+                <?php
+                    // Carregar Fornecedor da ferramenta 1
+                    echo "<td>$forn1</td>";
+                    // Carregar Fornecedor da ferramenta 2
+                    echo "<td>$forn2</td>";
+                ?>
+                <td>-</td>                
             </tr>
 
             <tr>
-                <th colspan="3">DADOS DE CORTE</th>
+                <th colspan="4">DADOS DE CORTE</th>
             </tr>
             
             <tr>
                 <td>VELOCIDADE DE CORTE [m/min]</td>
-                <td class="blue">300</td>
-                <td class="blue">300</td>
+                <?php
+                // Verificar Velocidade de Corte
+                    vlr1Maior($caracFerr1[4], $caracFerr2[4], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>AVANÇO [mm/min]</td>
-                <td class="blue">435</td>
-                <td class="blue">435</td>
+                <?php
+                    vlr1Maior($caracFerr1[5], $caracFerr2[5], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>COMPRIMENTO USINADO [mm]</td>
-                <td class="blue">37,7</td>
-                <td class="blue">37,7</td>
+                <?php
+                    vlr1Maior($caracFerr1[6], $caracFerr2[6], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>TEMPO DE USINAGEM [minutos]</td>
-                <td class="blue">0,09</td>
-                <td class="blue">0,09</td>
+                <?php
+                    // Carregar Tempo de Usinagem da ferramenta 1
+                    if (!empty($caracFerr1[5]) && !empty($caracFerr1[6]))
+                        {
+                            $valor1 = round($caracFerr1[6]/$caracFerr1[5], 2);
+                        }
+                    else
+                        {
+                            $valor1 = '-';
+                        }
+                    // Carregar Tempo de Usinagem da ferramenta 2
+                    if (!empty($caracFerr2[5]) && !empty($caracFerr2[6]))
+                        {
+                            $valor2 = round($caracFerr2[6]/$caracFerr2[5], 2);
+                        }
+                    else
+                        {
+                            $valor2 = '-';
+                        }
+                    vlr1Menor($valor1, $valor2, $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
-                <th colspan="3">INFORMAÇÕES DE CUSTO</th>
+                <th colspan="4">INFORMAÇÕES DE CUSTO</th>
             </tr>
 
             <tr>
                 <td>CUSTO PASTILHAS NOVAS [R$]</td>
-                <td class="blue">R$ 28,94</td>
-                <td class="blue">R$ 25,94</td>
+                <?php
+                    vlr1Menor($caracFerr1[7], $caracFerr2[7], $forn1, $forn2, 1);
+                ?>
             </tr>
 
             <tr>
                 <td>QTDE DE ARESTAS</td>
-                <td class="blue">6</td>
-                <td class="blue">6</td>
+                <?php
+                    vlr1Maior($caracFerr1[8], $caracFerr2[8], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>QTDE DE PASTILHAS/FERRAMENTA</td>
-                <td class="blue">1</td>
-                <td class="blue">1</td>
+                <?php
+                    vlr1Maior($caracFerr1[9], $caracFerr2[9], $forn1, $forn2);
+                ?>
+            </tr>
+            
+            <tr>
+                <td>VIDA ÚTIL [pçs]</td>
+                <?php
+                    vlr1Maior($caracFerr1[10], $caracFerr2[10], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>CUSTO PASTILHAS ALISADORA [R$]</td>
-                <td class="blue"></td>
-                <td class="blue"></td>
+                <?php
+                    vlr1Menor($caracFerr1[11], $caracFerr2[11], $forn1, $forn2, 1);
+                ?>
             </tr>
 
             <tr>
                 <td>QTDE DE ARESTAS PAST. ALISADORA</td>
-                <td class="blue"></td>
-                <td class="blue"></td>
+                <?php
+                    vlr1Maior($caracFerr1[12], $caracFerr2[12], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>QTDE DE PAST. ALISADORA/FERRAM.</td>
-                <td class="blue"></td>
-                <td class="blue"></td>
-            </tr>
-
-            <tr>
-                <td>VIDA ÚTIL [pçs]</td>
-                <td class="blue">180</td>
-                <td class="blue">200</td>
+                <?php
+                    vlr1Maior($caracFerr1[13], $caracFerr2[13], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>VIDA ÚTIL PAST. ALISADORA [pçs]</td>
-                <td class="blue"></td>
-                <td class="blue"></td>
+                <?php
+                    vlr1Maior($caracFerr1[14], $caracFerr2[14], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>CUSTO DE FERR./PÇ [R$/pç]</td>
-                <td class="blue">R$ 0,03</td>
-                <td class="blue">R$ 0,02</td>
+                <?php
+                    // Carregar Custo por ferramenta da ferramenta 1
+                    if (!empty($caracFerr1[7]) && !empty($caracFerr1[8])  && !empty($caracFerr1[9]) && !empty($caracFerr1[10]))
+                        {
+                            $custoFerr1 = ($caracFerr1[7] * $caracFerr1[9]) / ($caracFerr1[8] * $caracFerr1[10]);
+                            if (!empty($caracFerr1[11]) && !empty($caracFerr1[12]) && !empty($caracFerr1[13]) && !empty($caracFerr1[14]))
+                            {
+                                $vlraux = ($caracFerr1[11] * $caracFerr1[13]) / ($caracFerr1[12] * $caracFerr1[14]);
+                                $custoFerr1 = $custoFerr1 + $vlraux;
+                            }
+                        }
+                    else
+                        {
+                            $custoFerr1 = '-';
+                        }
+                    // Carregar Custo por ferramenta da ferramenta 2
+                    if (!empty($caracFerr2[7]) && !empty($caracFerr2[8])  && !empty($caracFerr2[9]) && !empty($caracFerr2[10]))
+                        {
+                            $custoFerr2 = ($caracFerr2[7] * $caracFerr2[9]) / ($caracFerr2[8] * $caracFerr2[10]);
+                            if (!empty($caracFerr2[11]) && !empty($caracFerr2[12]) && !empty($caracFerr2[13]) && !empty($caracFerr2[14]))
+                            {
+                                $vlraux = ($caracFerr2[11] * $caracFerr2[13]) / ($caracFerr2[12] * $caracFerr2[14]);
+                                $custoFerr2 = $custoFerr2 + $vlraux;
+                            }
+                        }
+                    else
+                        {
+                            $custoFerr2 = '-';
+                        }
+                    vlr1Menor($custoFerr1, $custoFerr2, $forn1, $forn2, 1);
+                ?>
             </tr>
 
             <tr>
                 <td>PREVISÃO DE PROD.ANUAL [pçs]</td>
-                <td class="blue">2029716</td>
-                <td class="blue">2029716</td>
+                <?php
+                    vlr1Maior($caracFerr1[15], $caracFerr2[15], $forn1, $forn2);
+                ?>
             </tr>
 
             <tr>
                 <td>CUSTO DE FERRAM./ANO [R$]</td>
-                <td class="blue">R$ 54.388,87</td>
-                <td class="blue">R$ 43.875,69</td>
+                <?php
+                    // Carregar Custo por ferramenta por ano da ferramenta 1
+                    if (!empty($caracFerr1[7]) && !empty($custoFerr1) && !empty($caracFerr1[15]))
+                    {
+                        $custAnoFerr1 = $custoFerr1 * $caracFerr1[15];
+                    }
+                    else
+                    {
+                        $custAnoFerr1 = '-';
+                    }
+                    // Carregar Custo por ferramenta por ano da ferramenta 2
+                    if (!empty($caracFerr2[7]) && !empty($custoFerr2) && !empty($caracFerr2[15]))
+                    {
+                        $custAnoFerr2 = $custoFerr2 * $caracFerr2[15];
+                    }
+                    else
+                    {
+                        $custAnoFerr2 = '-';
+                    }
+                    vlr1Menor($custAnoFerr1, $custAnoFerr2, $forn1, $forn2, 1);
+                ?>
             </tr>
 
             <tr>
                 <td>RED. CUSTO ANUAL [R$]</td>
-                <td class="blue"></td>
-                <td class="blue">R$ 10.513,18</td>
+                <td class="blue">-</td>
+                <?php
+                    if ($custAnoFerr1 != '-' && $custAnoFerr2 != '-')
+                    {
+                        $redAnoVlr = $custAnoFerr1 - $custAnoFerr2;
+                        $redAno = round($redAnoVlr, 2);
+                        $redAno = str_replace('.', ',', $redAno);
+                        echo "<td class='blue'>R$ $redAno</td>";
+                    }
+                    else{
+                        $redAnoVlr = '-';
+                        echo "<td class='blue'>-</td>";
+                    }
+                ?>
+                <td class="blue">-</td>
             </tr>
 
             <tr>
                 <td>RED. CUSTO/PÇ ANUAL [%]</td>
-                <td class="blue"></td>
-                <td class="blue">19%</td>
+                <td class="blue">-</td>
+                <?php
+                    if ($redAnoVlr != '-' && $custAnoFerr1 !=  '-'){
+                        $porcAno = round($redAnoVlr / $custAnoFerr1, 2) * 100;
+                        echo "<td class='blue'>$porcAno %</td>";
+                    }
+                    else{
+                        echo "<td class='blue'>-</td>";
+                    }
+                ?>
+                <td class="blue">-</td>
             </tr>
 
             <tr class="amarelo">
                 <td>PREVISÃO DE CONSUMO MENSAL</td>
-                <td>157</td>
-                <td>141</td>
-            </tr>
-        
-        </table>
-
-        <br>
-        <br>
-        <br>
-        
-    </body>
-
-    <footer>
-        
-    </footer>
-    <body>
-        <!-- Botão para acessar a tela do Inicio -->
-        <form action='../index.php'>
-            <button type='submit' name='inicio'>Inicio</button>
-        </form>
-        <br>
-        <!-- Criar um form -->
-        <form method="get" action="">
-            <!-- Criar Label para informar que deve ser selecionada uma ferramenta -->
-            <label for="ferramenta1">Escolha a Ferramenta 1:</label>
-            <!-- Criar uma ListBox com o nome de todas as ferramentas que tem no DB -->
-            <select name="ferramenta1" id="ferramenta1">
-                <!-- Primeiro item vai ser o "Selecione" -->
-                <option value="">Selecione</option>
                 <?php
-                    # Enquanto tiver um item a ser mostrado no DB, continuar com o looping
-                    while($exibirRegistros = mysqli_fetch_array($consulta)){
-                        # Id será o item 0 da lista gerada
-                        $id = $exibirRegistros[0];
-                        # Descrição será o item 1 da lista gerada
-                        $descricao = $exibirRegistros[1];
-                        # Caso o ID seja igual ao ID pesquisado previamente pelo usuário, ele será automaticamente selecionado
-                        if($id == $idFerramenta1){
-                            echo "<option value='$id' selected='selected'>$descricao</option>";
-                        }
-                        # Caso contrário apenas adiciona o item na lista
-                        else{
-                            echo "<option value='$id'>$descricao</option>";
-                        }
+                // Previsão de consumo Ferramenta 1
+                    if (!empty($caracFerr1[8]) && !empty($caracFerr1[9]) && !empty($caracFerr1[10]) && !empty($caracFerr1[15]))
+                    {
+                        $valor1 = (($caracFerr1[15] / 12)/($caracFerr1[10] * $caracFerr1[8]) * $caracFerr1[9]);
+                        $valor1 = ceil($valor1);
                     }
+                    else
+                    {
+                        $valor1 = '-';
+                    }
+                // Previsão de consumo Ferramenta 2
+                    if (!empty($caracFerr2[8]) && !empty($caracFerr2[9]) && !empty($caracFerr2[10]) && !empty($caracFerr2[15]))
+                    {
+                        $valor2 = (($caracFerr2[15] / 12)/($caracFerr2[10] * $caracFerr2[8]) * $caracFerr2[9]);
+                        $valor2 = ceil($valor2);
+                    }
+                    else
+                    {
+                        $valor2 = '-';
+                    }
+                    vlr1Menor($valor1, $valor2, $forn1, $forn2);
                 ?>
-            </select>
-            <!-- Botão de "Pesquisar" item selecionado na ListBox -->
-            <input type="submit" value="Pesquisar">
-        </form>
-        <br>
-        <!-- Formulário de Informações a serem apresentadas da ferramenta -->
-        <form method="get" action="processa.php">
-            <!-- Criar a label de Descrição -->
-            <!-- Caso tenha algo na variável de Descrição, colocar como Value na input de Descrição -->
-            Descrição: <input type="text" name="desc" value="<?php if($descricaoFerramenta1 <> ''){echo $descricaoFerramenta1;}
-                else{echo '';}?>" required autofocus><br>
-            <!-- Criar Label de FOrnecedor -->
-            <!-- Caso tenha algo na variável de Fornecedor, colocar como Value na input de Descrição -->
-            Fornecedor: <input type="text" name="forn" value="<?php 
-            if(empty($registroFerramenta[3])){
-                    echo '';
-                }
-                else{
-                    echo $registroFerramenta[3];
-                }
-                ?>"required>
-            <br>
-            <!-- Botão apra salvar as informações inseridas nos campos -->
-            <input type="submit" value="Salvar">
-        </form>
-        <br>
-        <hr>
-        <br>
-
-        <!-- 
-        ################################################ 
-        ###############  CAMPOS DE TESTE  ##############
-        ################################################ 
-        -->
-        <form method="post" action="processa.php">
-            <?php
-            # Looping For para inserir as labels e os input box a aprtir da lista criada no cabeçalho da página
-                if (empty($registroFerramenta)) 
-                {
-                    for ($i = 1; $i <= 3; $i++)
-                    {
-                        $label = $arrLabelCampo[$i];
-                        $nameHtml = $arrIDHtml[$i];
-                        echo "$label: <input type='text' id='$nameHtml'><br>";
-                    }
-                }
-                else
-                {
-                    for ($i = 1; $i <= 3; $i++)
-                    {
-                        $label = $arrLabelCampo[$i];
-                        $nameHtml = $arrIDHtml[$i];
-                        $valor = $registroFerramenta[$i];
-                        echo "$label: <input type='text' id='$nameHtml' value='$valor'><br>";
-                    }
-                }
-                
-                # Inserir a Label e input de Vel. de Avanço e Comprimento Usinado
-                for ($i = 5; $i <=6; $i++){
-                    $label = $arrLabelCampo[$i];
-                    $nameHtml = $arrIDHtml[$i];
-                    echo "$label: <input type='number' id='$nameHtml'  value='0' onblur='somaTempUsi()'><br>";
-                }
-            ?>
-            <!-- Criar a label de Tempo de Usinagem -->
-            Tempo de usinagem:
-            <input name="resTempUsi" readonly id="resTempUsi" value="0">
-            <!-- Salvar as informações inseridas na inputbox -->
-            <br>
-            <input type="submit" value="Salvar">
-        </form>
+            </tr>
+        </table>
     </body>
 </html>

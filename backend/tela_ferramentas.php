@@ -1,3 +1,22 @@
+<?php
+
+############# NOVA PESQUISA
+# Criar link com o DB
+$dbh = new PDO('mysql:host=localhost;dbname=troy_prot', 'root', '');
+
+# Criar o comando do SQL
+$sth = $dbh->prepare("SELECT TABPRO_ID, TABPRO_CodWHB, TABPRO_Descricao, TABPRO_Fornecedor FROM tabpro");
+# Executar comando
+$sth->execute();
+
+# Armazenar em uma variável os resultados obtidos
+$resultados = $sth->fetchAll(PDO::FETCH_ASSOC);
+# Contar a quantidade de resultados
+$tamResultados = count($resultados);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -30,6 +49,7 @@
             </form>
         </div>
 
+
         <table class="records">
             <thead>
                 <tr>
@@ -40,28 +60,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>FE33.0613198</td>
-                    <td>WNMG080408-SWT515</td>
-                    <td>TUNGALOY</td>
-                    <td>
-                        <button type="button" class="button green">Editar</button>
-                        <button type="button" class="button red">Excluir</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>Sem Código WHB</td>
-                    <td>WNMG080408-SW MC5015</td>
-                    <td>TROY</td>
-                    <td>
-                        <button type="button" class="button green">Editar</button>
-                        <button type="button" class="button red">Excluir</button>
-                    </td>
-                </tr>
-               
+                <?php
+                    for ($i = 0; $i < $tamResultados; $i++) {
+                        $id = $resultados[$i]['TABPRO_ID'];
+                        $codWhb = $resultados[$i]['TABPRO_CodWHB'];
+                        $desc = $resultados[$i]['TABPRO_Descricao'];
+                        $forn = $resultados[$i]['TABPRO_Fornecedor'];
+                        echo '<tr>';
+                        echo "<td>$id</td>";
+                        echo "<td>$codWhb</td>";
+                        echo "<td>$desc</td>";
+                        echo "<td>$forn</td>";
+                        echo "<td>";
+                            echo "<button type='button' class='button green' name=$id>Editar</button>";
+                            echo "<button type='button' class='button red' name=$id>Excluir</button>";
+                        echo "</td>";
+                        echo '</tr>';
+                    }
+                ?>               
             </tbody>
         </table>
         <div class="modal" id="modal">

@@ -1,0 +1,25 @@
+body {
+background-color: rgb(240, 234, 241);
+}
+
+.kit{
+    padding: 5px;
+    color: rgb(7, 5, 2);
+}
+.info{
+    color: rgb(8, 8, 7);
+}
+.quadrado{
+    border-radius: 25px;
+}
+.dados{
+    color: rgb(3, 3, 3);
+}
+.even{
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+.kat{
+    background-color:  #2d2f69;
+}
