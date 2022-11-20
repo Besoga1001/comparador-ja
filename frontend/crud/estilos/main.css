@@ -19,22 +19,14 @@ body{
 header{
     background-color: var(--primary-color);
     height: 70px;
+    text-align: center;
     line-height: 70px;
     box-shadow: 0 1px 2px #ccc;
 }
 
 .header-title{
-    text-align: center;
-    color: rgb(255, 0, 0);
-    font-size: 2rem;
-}
-
-.header-area{
-    text-align: left;
     color: rgb(255, 255, 255);
     font-size: 2rem;
-    background-color: var(--primary-color);
-    height: 50px;
 }
 
 main{

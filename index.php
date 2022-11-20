@@ -42,32 +42,27 @@ $tamResultados = count($resultados);
     <title>Ferramentas Troy</title>
 </head>
 <body>
-    <header>
+    <header>>
+       
         <h1 class="header-title">Ferramentas</h1>
     </header>
     <main>
         <div>
             <form method='GET' action='/backend/crud.php'>
-                <input type='submit' class="input blue" name='modo' value='Cadastrar'>          
+                <input type='submit' class="input blue" name='modo' value='Cadastrar ferr.'>          
             </form>
         </div>
 
-        <table>
-            <tr>
-                <td>
-                    <form method='GET' action=''>
-                        <label class=''>Nome produto: </label>
-                        <input type='text' class='' name='filtro'>
-                        <input type='submit' class='input blue' value='Pesquisar'>  
-                    </form>
-                </td>
-                <td>
-                    <form action='index.php'>
-                        <input type='submit' class='input blue' value='Limpar filtro'>  
-                    </form> 
-                </td>          
-            </tr>
-        </table>
+        <div>
+            <form method='GET' action=''>
+                <label class=''>Nome produto: </label>
+                <input type='text' class='' name='filtro'>
+                <input type='submit' class='input blue' value='Pesquisar'>  
+            </form>
+            <form action='index.php'>
+                <input type='submit' class='input blue' value='Limpar filtro'>  
+            </form>
+        </div>
 
         <table class="records">
             <thead>
@@ -96,9 +91,9 @@ $tamResultados = count($resultados);
                             // Criar os botões de editar e excluir ferramenta
                             echo "<td>";
                                 echo "<form method='GET' action='backend\crud.php'>";
-                                    echo "<input type='submit' class='' name='modo' value='Editar'>";
-                                    echo "<input type='submit' class='' name='modo' value='Excluir'>";
-                                    echo "<input type='submit' class='' name='modo' value='Consultar'>";
+                                    echo "<input type='submit' class='input green' name='modo' value='Editar'>"; 
+                                    echo "<input type='submit' class='input red' name='modo' value='Excluir'>"; 
+                                    echo "<input type='submit' class='input yellow' name='modo' value='Consultar'>";
                                     echo "<input type='hidden' name='id' value='$id'>";
                                 echo "</form>";
                             echo "</td>";

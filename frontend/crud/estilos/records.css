@@ -7,20 +7,23 @@
 .records th{
     height: 40px;
     background-color: var(--primary-color);
-    padding-left: 20px;
+    padding-left: 15px;
     font-size: 1.2rem;
-    color: white;
+    color: rgb(255, 255, 255);
+    
+    
 }
 
 .records td{
     height: 50px;
     padding-left: 20px ;
+    
 }
 
-.records th:last-child,
+
 .records td:last-child{
     padding: 0;
-    min-width: 140px;
+    min-width: 100px;
     text-align: center;
 }
 
