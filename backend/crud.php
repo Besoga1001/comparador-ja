@@ -5,6 +5,19 @@
 
 include_once ("conexao.php");
 
+# Criar link com o DB
+$dbh = new PDO('mysql:host=localhost;dbname=troy_prot', 'root', '');
+# Verificar se tem algum filtro a ser pesquisado
+if (isset($_GET['id'])){
+    $idPesq = $_GET['id'];
+    # Criar o comando do SQL
+    $sth = $dbh->prepare("SELECT * FROM tabpro WHERE TABPRO_ID = '$idPesq'");
+    # Executar comando
+    $sth->execute();
+    # Armazenar em uma variável os resultados obtidos
+    $resultados = $sth->fetchAll(PDO::FETCH_ASSOC);
+}
+
 $mode = recieveMode();
 
 // Lista de nomes das labels que aparecerão do lado das Inputs
@@ -13,8 +26,14 @@ $arrLabelCampo = ["ID", "Descrição", "Código WHB", "Fornecedor", "Velocidade 
 // Lista de nomes dos InputBox que aparecerão do lado das Labels
 $arrIDHtml = ["id", "desc", "codwhb", "forn", "velcorte", "avanco", "compusi", "custpastnova", "qtdarenova", "qtdpastnova", "vidautilnova", "custpastalisa", "qtdarealisa", "qtdpastalisa", "vidautilalisa", "prevprod"];
 
+// Lista dos valores dos resultados obtidos
+if (isset($idPesq)){
+    $listResults = [$resultados[0]['TABPRO_ID'], $resultados[0]['TABPRO_Descricao'], $resultados[0]['TABPRO_CodWHB'], $resultados[0]['TABPRO_Fornecedor'], $resultados[0]['TABPRO_VelCorte'], $resultados[0]['TABPRO_Avanco'], $resultados[0]['TABPRO_CompUsi'], $resultados[0]['TABPRO_Nova_CustPast'], $resultados[0]['TABPRO_Nova_QtdAresta'], $resultados[0]['TABPRO_Nova_QtdPast'], $resultados[0]['TABPRO_Nova_VidaUtil'], $resultados[0]['TABPRO_Alisa_CustPast'], $resultados[0]['TABPRO_Alisa_QtdAresta'], $resultados[0]['TABPRO_Alisa_QtdPast'], $resultados[0]['TABPRO_Alisa_VidaUtil'], $resultados[0]['TABPRO_PrevProdAnual']];
+}
+
+
 function recieveMode() {
-    if ($_GET['modo'] != '') {
+    if (isset($_GET['modo'])) {
         $mode = $_GET['modo'];
     }
 
@@ -56,7 +75,6 @@ function recieveMode() {
             id('tempusi').value = 0;
         }
     }
-
 </script>
 
 <!DOCTYPE html>
@@ -65,10 +83,15 @@ function recieveMode() {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../frontend/crud/estilos/style.css">
+        <link rel="stylesheet" href="main.css">
         <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
         <title>Ferramentas Troy</title>
     </head>
     <body>
+        <header>
+            <h2 class='header-title'>Informações de Cabeçalho</h2>
+        </header>
         
         <!-- Botão para acessar a página de Consultas -->
         <form action='..\..\index.php'>
@@ -76,8 +99,8 @@ function recieveMode() {
         </form>
 
         <form method="POST" action="processa.php">
-            <h2>Informações de Cabeçalho</h2>
             <br>
+            <h2 class='header-area'>Informações da Ferramenta</h2><br>
             <?php
                 // Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
                 for ($i = 1; $i <= 3; $i++)
@@ -86,17 +109,17 @@ function recieveMode() {
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
                     if ($mode != 'Cadastrar') {
-                        echo "$label <input type='text' id='$idHtml' name='$idHtml' readonly><br><br>";
+                        echo "$label <input type='text' id='$idHtml' name='$idHtml' class='quadrado' value='$listResults[$i]' readonly><br><br>";
                     } else {
                         if ($idHtml == 'desc' || $idHtml == 'forn') {
-                            echo "$label <input type='text' id='$idHtml' name='$idHtml' required><br><br>"; 
+                            echo "$label <input type='text' id='$idHtml' name='$idHtml' class='quadrado' required><br><br>"; 
                         } else {
-                        echo "$label <input type='text' id='$idHtml' name='$idHtml'><br><br>";
+                        echo "$label <input type='text' id='$idHtml' name='$idHtml' class='quadrado'><br><br>";
                         }
                     }
                 }
 
-                echo "<br><hr><h2>Dados de Corte</h2><br>";
+                echo "<br><hr><h2 class='header-area'>Dados de Corte</h2><br>";
                 
                 // Inserir a Label e input de Vel. de Avanço e Comprimento Usinado (Tipo Number)
                 for ($i = 4; $i <=6; $i++)
@@ -105,16 +128,16 @@ function recieveMode() {
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
                     if ($mode != 'Cadastrar') {
-                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()' readonly><br><br>";
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml'  name='$idHtml' onblur='tempUsi()' class='quadrado' value='$listResults[$i]' readonly><br><br>";
                     } else {
-                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi()'><br><br>"; 
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' value='0' name='$idHtml' onblur='tempUsi() ' class='quadrado'><br><br>"; 
                     }
                 }
 
                 $idHtml = "tempusi";
-                echo "Tempo de Usinagem: <input type='text' id=$idHtml value='0' readonly>";
+                echo "Tempo de Usinagem: <input type='text' id=$idHtml value='0' class='quadrado' readonly>";
 
-                echo "<br><br><hr><h2>Informações de Custo</h2><br>";
+                echo "<br><br><hr><h2 class='header-area'>Informações de Custo</h2><br>";
 
                 // Looping For para inserir as labels e os input box a partir da lista criada no cabeçalho da página (Tipo texto)
                 for ($i = 7; $i <= 15; $i++)
@@ -123,16 +146,15 @@ function recieveMode() {
                     $idHtml = $arrIDHtml[$i];
                     $label = "<label for='$idHtml'>$label:</label>";
                     if ($mode != 'Cadastrar') {
-                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml' readonly><br><br>";
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml' class='quadrado' value='$listResults[$i]' readonly><br><br>";
                     } else {
-                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml'><br><br>";
+                        echo "$label <input type='number' min='0' step='0.1' id='$idHtml' name='$idHtml' class='quadrado'><br><br>";
                     }
                 }
 
-
                 if ($mode == 'Cadastrar'){
                     echo "<input type='submit' value='Inserir'><br></input>";
-                } elseif ($mode == 'Atualizar') {
+                } elseif ($mode == 'Editar') {
                     echo "<input type='submit' value='Atualizar'><br></input>";
                 }
 

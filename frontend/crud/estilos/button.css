@@ -22,29 +22,15 @@ div > div {
     display: inline-block;
 }
 
-input.green{
+button.green{
     background-color: #13ce66 ;
     font-size: 1rem;
-    padding: 11px 21px;
-    transition: box-shadow .6 ease;
-    text-align: center;
 }
 
-input.red{
+button.red{
     background-color: #ff4949;
     font-size: 1rem;
-    padding: 11px 21px;
-    margin: 0 15px;
-    transition: box-shadow .6 ease;
 }
-
-input.yellow{
-    background-color: gold;
-    font-size: 1rem;
-    transition: box-shadow .6 ease;
-}
-
-
 
 .input:hover{
     box-shadow: inset 200px 0 0 rgb(69, 69, 69);
