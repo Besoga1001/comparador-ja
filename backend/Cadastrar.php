@@ -63,11 +63,11 @@ function sqlConection($conexao, $sql){
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/frontend/crud/estilos/button.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ferramentas Troy</title>
 </head>
 <body>
-    <h1>Teste</h1>
     <?php
         if ($linhas == 1) {
             print "Cadastro efetuado com sucesso!";
@@ -77,8 +77,8 @@ function sqlConection($conexao, $sql){
 
     ?>
 
-    <form method='get' action='/backend/tela_ferramentas.php'>
-        <button type='submit' name='cadastro'>Ferramentas</button>
+    <form method='get' action='../index.php'>
+        <input type='submit' class="input blue" name='modo' value='Ferramentas'>
     </form>
     
 </body>

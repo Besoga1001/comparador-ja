@@ -10,7 +10,7 @@ background-color: rgb(240, 234, 241);
     color: rgb(8, 8, 7);
 }
 .quadrado{
-    border-radius: 25px;
+    border-radius: 0px;
 }
 .dados{
     color: rgb(3, 3, 3);
@@ -22,4 +22,8 @@ background-color: rgb(240, 234, 241);
 }
 .kat{
     background-color:  #2d2f69;
+}
+
+.escondido{
+    display: none;
 }

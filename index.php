@@ -1,7 +1,5 @@
 <?php
 
-############# NOVA PESQUISA
-
 # Criar link com o DB
 $dbh = new PDO('mysql:host=localhost;dbname=troy_prot', 'root', '');
 
@@ -46,11 +44,20 @@ $tamResultados = count($resultados);
         <h1 class="header-title">Ferramentas</h1>
     </header>
     <main>
-        <div>
-            <form method='GET' action='/backend/crud.php'>
-                <input type='submit' class="input blue" name='modo' value='Cadastrar'>          
-            </form>
-        </div>
+        <table>
+            <tr>
+                <td>
+                    <form method='GET' action='/backend/comparador.php'>
+                        <input type='submit' class="input blue" name='modo' value='Comparador'>          
+                    </form>
+                </td>
+                <td>    
+                    <form method='GET' action='/backend/crud.php'>
+                        <input type='submit' class="input blue" name='modo' value='Cadastrar'>          
+                    </form>
+                </td>
+            </tr>
+        </table>
 
         <table>
             <tr>
@@ -96,9 +103,9 @@ $tamResultados = count($resultados);
                             // Criar os botões de editar e excluir ferramenta
                             echo "<td>";
                                 echo "<form method='GET' action='backend\crud.php'>";
-                                    echo "<input type='submit' class='' name='modo' value='Editar'>";
-                                    echo "<input type='submit' class='' name='modo' value='Excluir'>";
-                                    echo "<input type='submit' class='' name='modo' value='Consultar'>";
+                                    echo "<input type='submit' class='input blue' name='modo' value='Editar'>";
+                                    echo "<input type='submit' class='input blue' name='modo' value='Excluir'>";
+                                    echo "<input type='submit' class='input blue' name='modo' value='Consultar'>";
                                     echo "<input type='hidden' name='id' value='$id'>";
                                 echo "</form>";
                             echo "</td>";
