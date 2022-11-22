@@ -235,7 +235,7 @@ function vlr1Menor ($valor1, $valor2, $forn1, $forn2, $vlrReal = 0){
             <div class="cabecalho">
                 <h1><img src="/frontend/comparador/imagens/logo-troy.png"></h1>
                 <ul>
-                    <il><img class="imagem" src="../frontend/comparador/imagens/telefone-troy.png">+55(41)3349-3002</il>
+                    <il><img class="imagem" src="../frontend/comparador/imagens/telefone-troy.png">+55 (41) 3349-3002 </il>
                     <il><img class ="imagem" src="../frontend/comparador/imagens/email-troy.png" alt="">vendas@ferramentastroy.com.br</il>
                     <il><img class= "imagem" src="../frontend/comparador/imagens/localizacao-troy.png" alt="">R. Wiegando Olsen, 724 - Cidade Industrial Curitiba - PR, 81460-070</il>
                 </ul>
@@ -248,7 +248,6 @@ function vlr1Menor ($valor1, $valor2, $forn1, $forn2, $vlrReal = 0){
                 <h2>Tela de comparação</h2>
             </div>
         </header>
-
         <table>
             <tr>
                 <th>COMPARATIVO TÉCNICO</th> <!-- Cabeçalho da tabela -->
