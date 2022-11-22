@@ -1,17 +1,13 @@
 <?php
 
-############# NOVA PESQUISA
-# Criar link com o DB
 $dbh = new PDO('mysql:host=localhost;dbname=troy_prot', 'root', '');
 
-# Criar o comando do SQL
 $sth = $dbh->prepare("SELECT TABPRO_ID, TABPRO_CodWHB, TABPRO_Descricao, TABPRO_Fornecedor FROM tabpro");
-# Executar comando
 $sth->execute();
 
-# Armazenar em uma variável os resultados obtidos
+// Armazenar em uma variável os resultados obtidos
 $resultados = $sth->fetchAll(PDO::FETCH_ASSOC);
-# Contar a quantidade de resultados
+
 $tamResultados = count($resultados);
 
 ?>

@@ -34,40 +34,6 @@ function recieveMode() {
 }
 ?>
 
-<!-- <script type="text/javascript">
-    /* LINK DO VÍDEO PARA EXECUÇÃO DA SOMA 
-    https://www.youtube.com/watch?v=_f6RYUjDlMk */
-
-    function tempUsi()
-    {
-        avanco = getValor("avanco");
-        compusi = getValor("compusi");
-
-        if (!isNaN(avanco) && !isNaN(compusi) && !isNaN(velcorte))
-        {
-            var total = compusi / avanco;
-            total = total.toFixed(2);
-            id('tempusi').value = total;
-        }
-        else
-        {
-            id('tempusi').value = 0;
-        }
-    }
-
-    function id(valor_campo)
-    {
-        return document.getElementById(valor_campo);
-    }
-
-    function getValor(valor_campo)
-    {
-        var valor = document.getElementById(valor_campo).value.replace(',', '.');
-        return valor;
-    }
-    
-</script> -->
-
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -136,8 +102,6 @@ function recieveMode() {
                     }
                 }
 
-                // $idHtml = "tempusi";
-                // echo "Tempo de Usinagem: <input type='text' id=$idHtml value='0' class='quadrado' readonly>";
                 echo "<hr><h2 class='header-area'>Informações de Custo</h2><br>";
 
                 for ($i = 7; $i <= 15; $i++)

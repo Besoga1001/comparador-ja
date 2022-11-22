@@ -225,6 +225,7 @@ function vlr1Menor ($valor1, $valor2, $forn1, $forn2, $vlrReal = 0){
     <head>
         <meta charset="UTF-8">
         <title>Ferramentas Troy</title>
+        <link rel="stylesheet" href="../frontend/crud/estilos/button.css">
         <link rel="stylesheet" href="/frontend/comparador/estilos/style.css">
     </head>
 
@@ -242,7 +243,7 @@ function vlr1Menor ($valor1, $valor2, $forn1, $forn2, $vlrReal = 0){
 
             <div class="conteudo">
                 <form action='../index.php'>
-                    <button type='submit' class="button blue" name='inicio'>Inicio</button>
+                    <input type='submit' class='input blue' name='inicio' value='Início'>
                 </form>
                 <h2>Tela de comparação</h2>
             </div>
